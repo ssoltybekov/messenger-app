@@ -47,3 +47,7 @@ CREATE TABLE media (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE INDEX idx_messages_chat_id ON messages(chat_id);
+CREATE INDEX idx_messages_sender_id ON messages(sender_id);
+CREATE INDEX idx_chat_members_user_id ON chat_members(user_id);
+CREATE INDEX idx_media_message_id ON media(message_id);
