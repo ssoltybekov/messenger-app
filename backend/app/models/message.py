@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
 from sqlalchemy.sql import func
 from app.database import Base
 from sqlalchemy import Text
+from sqlalchemy.orm import relationship
 
 class Message(Base):
     __tablename__ = "messages"
@@ -12,3 +13,5 @@ class Message(Base):
     text = Column(Text, nullable=True)
     is_read = Column(Boolean, default=False, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    sender = relationship("User", back_populates="messages")
