@@ -15,3 +15,4 @@ class User(Base):
 
     tokens = relationship("RefreshToken", back_populates="user")
     messages = relationship("Message", back_populates="sender")
+    chats = relationship("Chat", secondary="chat_members", back_populates="members")
