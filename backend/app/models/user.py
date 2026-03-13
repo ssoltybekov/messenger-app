@@ -14,3 +14,4 @@ class User(Base):
     last_seen = Column(DateTime)
 
     tokens = relationship("RefreshToken", back_populates="user")
+    messages = relationship("Message", back_populates="sender")
