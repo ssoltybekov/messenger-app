@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, Boolean, DateTime, ForeignKey
 from sqlalchemy.sql import func
 from app.database import Base
 from sqlalchemy import Text
@@ -15,3 +15,4 @@ class Message(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     sender = relationship("User", back_populates="messages")
+    chat = relationship("Chat", back_populates="messages")
