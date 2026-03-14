@@ -1,8 +1,12 @@
 import bcrypt
 from jose import jwt
 from datetime import datetime, timezone, timedelta
+from sqlalchemy.orm import Session
+from fastapi import HTTPException, status
+from app.models.user import User
+from app.schemas.user import UserCreate
 
-JWT_SECRET = "your-super-secret-key" # В Go это был бы []byte("secret")
+JWT_SECRET = "your-super-secret-key" 
 JWT_ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 REFRESH_TOKEN_EXPIRE_DAYS=30
@@ -45,3 +49,32 @@ def create_refresh_token(user_id: int) -> str:
     encoded_jwt = jwt.encode(to_encode, JWT_SECRET, algorithm=JWT_ALGORITHM)
 
     return encoded_jwt
+
+def register_user(db: Session, user_data: UserCreate) -> User:
+    existing_user = db.query(User).filter(
+        (User.phone == user_data.phone) | (User.username == user_data.username)
+    ).first()
+
+    if existing_user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="User with this phone or username already exists"
+        )
+    
+    hashed_pwd = hash_password(user_data.password)
+
+    new_user = User(
+        username=user_data.username,
+        phone=user_data.phone,
+        password_hash=hashed_pwd
+    )
+
+    db.add(new_user)
+    try:
+        db.commit()
+        db.refresh(new_user)
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail="Database error")
+    
+    return new_user
