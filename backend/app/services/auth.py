@@ -1,5 +1,5 @@
 import bcrypt
-from jose import jwt
+from jose import jwt, JWTError
 from datetime import datetime, timezone, timedelta
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
@@ -99,3 +99,28 @@ def logout(db: Session, refresh_token: str) -> None:
     if db_token:
         db.delete(db_token)
         db.commit()
+
+def refresh_tokens(db: Session, refresh_token: str) -> str:
+    try:
+        payload = jwt.decode(refresh_token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+        user_id: int = payload.get("user_id")
+        if user_id is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED, 
+                detail="Invalid refresh token"
+            )
+    except JWTError:
+        raise HTTPException(401, "Could not validate")
+    
+    token_hash = hashlib.sha256(refresh_token.encode()).hexdigest()
+    db_token = db.query(RefreshToken).filter(RefreshToken.token_hash == token_hash).first()
+
+    if not db_token:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, 
+            detail="Refresh token not found or revoked"
+        )
+
+    new_access_token = create_access_token(user_id=user_id)
+
+    return new_access_token
