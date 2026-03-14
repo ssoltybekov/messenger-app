@@ -5,6 +5,9 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from app.models.user import User
 from app.schemas.user import UserCreate
+import hashlib
+from sqlalchemy.orm import Session
+from app.models.token import RefreshToken
 
 JWT_SECRET = "your-super-secret-key" 
 JWT_ALGORITHM = "HS256"
@@ -78,3 +81,21 @@ def register_user(db: Session, user_data: UserCreate) -> User:
         raise HTTPException(status_code=500, detail="Database error")
     
     return new_user
+
+def authenticate_user(db: Session, username: str, password: str) -> User:
+    user = db.query(User).filter(User.username == username).first()
+    if not user:
+        return None
+    
+    if not verify_password(password, user.password_hash):
+        return None
+    
+    return user
+
+def logout(db: Session, refresh_token: str) -> None:
+    token_hash = hashlib.sha256(refresh_token.encode()).hexdigest()
+    db_token = db.query(RefreshToken).filter(RefreshToken.token_hash == token_hash).first()
+
+    if db_token:
+        db.delete(db_token)
+        db.commit()
