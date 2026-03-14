@@ -6,6 +6,7 @@ class ChatCreate(BaseModel):
     name: Optional[str] = None
     is_group: bool = False
     is_public: bool = False
+    participant_ids: list[int] = []
 
 class ChatResponse(ChatCreate):
     id: int
