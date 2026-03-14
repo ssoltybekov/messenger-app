@@ -12,6 +12,11 @@ router = APIRouter(
     tags=["chats"]
 )
 
+@router.get("/", response_model=list[ChatResponse])
+def get_chats(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    chats = db.query(Chat).filter(Chat.members.contains(current_user)).all()
+    return chats
+
 @router.post("/", response_model=ChatResponse)
 def create_chat(chat_data: ChatCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     new_chat = Chat(name=chat_data.name, is_group=chat_data.is_group, is_public=chat_data.is_public)
@@ -26,11 +31,6 @@ def create_chat(chat_data: ChatCreate, db: Session = Depends(get_db), current_us
     db.refresh(new_chat)
 
     return new_chat
-
-@router.get("/", response_model=list[ChatResponse])
-def get_chats(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    chats = db.query(Chat).filter(Chat.members.contains(current_user)).all()
-    return chats
 
 @router.get("/{chat_id}", response_model=ChatResponse)
 def get_chat(chat_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
