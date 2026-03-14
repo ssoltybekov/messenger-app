@@ -1,9 +1,10 @@
 from pydantic import BaseModel, field_validator
 from datetime import datetime
+from typing import Optional
 
 class UserCreate(BaseModel):
     username: str
-    phone: str
+    phone: Optional[str] = None
     password: str
 
     @field_validator("password")
