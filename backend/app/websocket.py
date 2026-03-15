@@ -25,3 +25,5 @@ class ConnectionManager:
         if chat:
             for user in chat.members:
                 await self.send_to_user(user.id, message)
+
+manager = ConnectionManager()
