@@ -1,6 +1,8 @@
+import json
+from typing import Dict, List
 from fastapi import WebSocket
-from typing import Dict
 from sqlalchemy.orm import Session
+from redis.asyncio import Redis
 from app.models.chat import Chat
 
 class ConnectionManager:
@@ -19,11 +21,20 @@ class ConnectionManager:
         if user_id in self.active_connections:
             await self.active_connections[user_id].send_json(message)
 
-    async def send_to_chat(self, chat_id: int, message: dict, db: Session):
-        chat = db.query(Chat).filter(Chat.id == chat_id).first()
+    async def send_to_chat(self, chat_id: int, message: dict, db: Session, redis: Redis):
+        cache_key = f"chat:{chat_id}:members"
 
-        if chat:
-            for user in chat.members:
-                await self.send_to_user(user.id, message)
+        cashed_members = await redis.get(cache_key)
+        if cashed_members:
+            member_ids = json.loads(cached_members)
+        else:
+            chat = db.query(Chat).filter(Chat.id == chat_id).first()
+            if not chat:
+                return
+            member_ids = [member.id for member in chat.members]
+            await redis.set(cache_key, json.dumps(member_ids), ex=300)
+        
+        for user_id in member_ids:
+            await self.send_to_user(user_id, message)
 
 manager = ConnectionManager()
