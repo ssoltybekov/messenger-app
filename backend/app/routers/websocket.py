@@ -6,11 +6,13 @@ from app.database import get_db
 from app.websocket import manager
 from app.models.message import Message
 from app.services.auth import JWT_SECRET, JWT_ALGORITHM 
+from redis.asyncio import Redis
+from app.redis import get_redis
 
 router = APIRouter()
 
 @router.websocket("/ws")
-async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(get_db)):
+async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(get_db), rd: Redis = Depends(get_redis)):
     # await websocket.accept()
 
     token = websocket.query_params.get("token")
@@ -32,6 +34,18 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(get_db)
         while True:
             data = await websocket.receive_text()
             message_data = json.loads(data)
+            rate_key = f"rate:{user_id}"
+            current_count = await rd.incr(rate_key)
+
+            if current_count == 1:
+                await rd.expire(rate_key, 60)
+
+            if current_count > 30:
+                await websocket.send_json({
+                    "type": "error",
+                    "message": "Too many messages. Please wait a minute."
+                })
+                continue
 
             new_msg = Message(
                 content=message_data.get("content"),
@@ -51,7 +65,7 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(get_db)
                     "chat_id": new_msg.chat_id
                 }
             }
-            await manager.send_to_chat(new_msg.chat_id, payload_to_send, db)
+            await manager.send_to_chat(new_msg.chat_id, payload_to_send, db, rd)
 
     except WebSocketDisconnect:
         manager.disconnect(user_id)
