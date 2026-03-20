@@ -5,3 +5,7 @@ transformers
 torch
 python-multipart
 httpx
+transformers
+torch
+sentencepiece
+langdetect
