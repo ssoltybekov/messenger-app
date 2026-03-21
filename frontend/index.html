@@ -72,6 +72,7 @@
     .sdot{display:inline-block;width:5px;height:5px;border-radius:50%;background:#4ade80;margin-right:4px}
     .ibtn{width:32px;height:32px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;font-size:14px}
     .ibtn:hover{border-color:var(--accent);color:var(--accent)}
+    .hbtns{display:flex;gap:6px}
 
     .msgs{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:4px}
     .msgs::-webkit-scrollbar{width:3px}
@@ -89,6 +90,8 @@
     .tbtn:hover{color:var(--accent)}
     .trl{font-size:12px;color:var(--muted);margin-top:6px;padding-top:6px;border-top:1px solid var(--border);font-style:italic}
     .sysmsg{text-align:center;font-size:11px;color:var(--muted);padding:10px 16px;background:var(--surface);border-radius:8px;border:1px solid var(--border);margin:4px 0}
+    .sumbox{background:var(--surface);border:1px solid var(--accent);border-radius:12px;padding:14px 18px;margin:8px 0;font-size:12px;line-height:1.7;color:var(--text)}
+    .sumbox strong{color:var(--accent);font-family:'Syne',sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:8px}
 
     .iarea{padding:14px 20px;background:var(--surface);border-top:1px solid var(--border)}
     .vind{display:none;align-items:center;gap:8px;font-size:11px;color:var(--accent2);padding:4px 0 8px}
@@ -113,6 +116,41 @@
     .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--surface);border:1px solid var(--border);padding:10px 20px;border-radius:8px;font-size:12px;opacity:0;transition:all .25s;pointer-events:none;z-index:999}
     .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
     ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+    /* MODAL */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:100;display:none;align-items:center;justify-content:center}
+    .modal-overlay.on{display:flex}
+    .modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px;width:420px;box-shadow:0 40px 80px rgba(0,0,0,.6)}
+    .modal h3{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-bottom:6px}
+    .modal p{font-size:11px;color:var(--muted);margin-bottom:24px;letter-spacing:.5px}
+    .mfield{margin-bottom:14px}
+    .mfield label{display:block;font-size:10px;color:var(--muted);margin-bottom:6px;letter-spacing:1.5px;text-transform:uppercase}
+    .mfield input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-family:'DM Mono',monospace;font-size:13px;outline:none;transition:border-color .2s}
+    .mfield input:focus{border-color:var(--accent)}
+    .mfield input::placeholder{color:var(--muted)}
+    .mtype{display:flex;gap:8px;margin-bottom:18px}
+    .mtype-btn{flex:1;padding:9px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Syne',sans-serif;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.5px}
+    .mtype-btn.on{border-color:var(--accent);color:var(--accent);background:rgba(124,106,247,.08)}
+    .user-search-results{max-height:160px;overflow-y:auto;border:1px solid var(--border);border-radius:10px;margin-top:6px;display:none}
+    .user-search-results.on{display:block}
+    .usr-item{padding:9px 14px;cursor:pointer;font-size:12px;display:flex;align-items:center;gap:8px;transition:background .15s}
+    .usr-item:hover{background:var(--border)}
+    .usr-item.selected{background:rgba(124,106,247,.12);color:var(--accent)}
+    .usr-av{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:'Syne',sans-serif;color:#fff;flex-shrink:0}
+    .selected-users{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;min-height:0}
+    .stag{background:rgba(124,106,247,.15);border:1px solid rgba(124,106,247,.3);border-radius:6px;padding:4px 10px;font-size:11px;color:var(--accent);display:flex;align-items:center;gap:6px}
+    .stag button{background:none;border:none;color:var(--accent);cursor:pointer;font-size:13px;line-height:1;padding:0}
+    .mbtns{display:flex;gap:8px;margin-top:20px}
+    .mbtn{flex:1;padding:11px;border-radius:10px;border:none;font-family:'Syne',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+    .mbtn.primary{background:linear-gradient(135deg,var(--accent),#6a58e0);color:#fff}
+    .mbtn.primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,106,247,.4)}
+    .mbtn.cancel{background:transparent;border:1px solid var(--border);color:var(--muted)}
+    .mbtn.cancel:hover{border-color:var(--accent2);color:var(--accent2)}
+
+    /* SUMMARY LANG PICKER */
+    .sum-lang{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+    .sum-lang-btn{padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;transition:all .2s}
+    .sum-lang-btn.on{border-color:var(--accent);color:var(--accent);background:rgba(124,106,247,.08)}
   </style>
 </head>
 <body>
@@ -142,6 +180,54 @@
   </div>
 </div>
 
+<!-- NEW CHAT MODAL -->
+<div class="modal-overlay" id="ncModal">
+  <div class="modal">
+    <h3>Новый чат</h3>
+    <p>// выбери тип и добавь участников</p>
+    <div class="mtype">
+      <button class="mtype-btn on" id="mt-private" onclick="setChatType('private')">ЛИЧНЫЙ</button>
+      <button class="mtype-btn" id="mt-group" onclick="setChatType('group')">ГРУППА</button>
+    </div>
+    <div class="mfield" id="chatNameWrap" style="display:none">
+      <label>название группы</label>
+      <input id="chatNameInp" placeholder="Название..."/>
+    </div>
+    <div class="mfield">
+      <label>добавить участников</label>
+      <input id="userSearch" placeholder="Поиск по username..." oninput="searchUsers(this.value)"/>
+      <div class="user-search-results" id="userResults"></div>
+    </div>
+    <div class="selected-users" id="selectedUsers"></div>
+    <div class="mbtns">
+      <button class="mbtn cancel" onclick="closeModal()">ОТМЕНА</button>
+      <button class="mbtn primary" onclick="createChat()">СОЗДАТЬ →</button>
+    </div>
+  </div>
+</div>
+
+<!-- SUMMARY MODAL -->
+<div class="modal-overlay" id="sumModal">
+  <div class="modal">
+    <h3>Саммари чата</h3>
+    <p>// AI сожмёт всю переписку в краткую выжимку</p>
+    <div class="mfield">
+      <label>язык ответа</label>
+      <div class="sum-lang">
+        <button class="sum-lang-btn on" onclick="setSumLang('en',this)">EN</button>
+        <button class="sum-lang-btn" onclick="setSumLang('ru',this)">RU</button>
+        <button class="sum-lang-btn" onclick="setSumLang('de',this)">DE</button>
+        <button class="sum-lang-btn" onclick="setSumLang('fr',this)">FR</button>
+        <button class="sum-lang-btn" onclick="setSumLang('es',this)">ES</button>
+      </div>
+    </div>
+    <div class="mbtns">
+      <button class="mbtn cancel" onclick="closeSumModal()">ОТМЕНА</button>
+      <button class="mbtn primary" onclick="runSummary()">ГЕНЕРИРОВАТЬ →</button>
+    </div>
+  </div>
+</div>
+
 <div id="app">
   <aside class="sidebar">
     <div class="sbhead">
@@ -150,7 +236,7 @@
     </div>
     <div class="clabel">ЧАТЫ</div>
     <div class="clist" id="cl"></div>
-    <button class="ncbtn" onclick="newChat()">+ новый чат</button>
+    <button class="ncbtn" onclick="openNewChatModal()">+ новый чат</button>
     <button class="lobtn" onclick="logout()">выйти</button>
   </aside>
   <main class="main">
@@ -162,7 +248,9 @@
           <div class="chav" id="chav">?</div>
           <div><div class="chn" id="chn">—</div><div class="chsb"><span class="sdot"></span>онлайн</div></div>
         </div>
-        <button class="ibtn" onclick="doSum()">⟳</button>
+        <div class="hbtns">
+          <button class="ibtn" title="Саммари" onclick="openSumModal()">◈</button>
+        </div>
       </div>
       <div class="msgs" id="msgs"></div>
       <div class="iarea">
@@ -181,7 +269,9 @@
 <script>
 const API='http://127.0.0.1:8000',ML='http://127.0.0.1:8001';
 let tok=null,usr=null,ws=null,cid=null,mr=null,ch=[],rec=false;
+let chatType='private', selectedUserIds=[], sumLang='en';
 
+// ── AUTH ──────────────────────────────────────────────────────────────
 function stab(t){
   document.getElementById('t-in').classList.toggle('on',t==='in');
   document.getElementById('t-up').classList.toggle('on',t==='up');
@@ -235,6 +325,7 @@ function showApp(){
   loadChats(); connectWS();
 }
 
+// ── WEBSOCKET ─────────────────────────────────────────────────────────
 function connectWS(){
   if(!tok) return;
   ws=new WebSocket(`ws://127.0.0.1:8000/ws?token=${tok}`);
@@ -248,6 +339,7 @@ function wsS(ok,e=false){
   document.getElementById('wl').textContent=ok?'подключено':e?'ошибка':'переподключение...';
 }
 
+// ── CHATS ─────────────────────────────────────────────────────────────
 async function loadChats(){
   if(!tok) return;
   try{const r=await fetch(`${API}/chats/`,{headers:{Authorization:`Bearer ${tok}`}});if(!r.ok)return;renderChats(await r.json());}catch(e){}
@@ -283,15 +375,91 @@ async function loadMsgs(){
     c.innerHTML=''; ms.forEach(m=>addMsg(m,true)); c.scrollTop=c.scrollHeight;
   }catch(e){}
 }
-async function newChat(){
-  const name=prompt('Название чата:'); if(!name)return;
+
+// ── NEW CHAT MODAL ────────────────────────────────────────────────────
+function openNewChatModal(){
+  chatType='private'; selectedUserIds=[];
+  document.getElementById('userSearch').value='';
+  document.getElementById('userResults').innerHTML='';
+  document.getElementById('userResults').classList.remove('on');
+  document.getElementById('selectedUsers').innerHTML='';
+  document.getElementById('chatNameInp').value='';
+  document.getElementById('chatNameWrap').style.display='none';
+  document.getElementById('mt-private').classList.add('on');
+  document.getElementById('mt-group').classList.remove('on');
+  document.getElementById('ncModal').classList.add('on');
+}
+function closeModal(){
+  document.getElementById('ncModal').classList.remove('on');
+}
+function setChatType(t){
+  chatType=t;
+  document.getElementById('mt-private').classList.toggle('on',t==='private');
+  document.getElementById('mt-group').classList.toggle('on',t==='group');
+  document.getElementById('chatNameWrap').style.display=t==='group'?'':'none';
+}
+
+let searchTimer=null;
+async function searchUsers(q){
+  clearTimeout(searchTimer);
+  const res=document.getElementById('userResults');
+  if(!q.trim()){res.classList.remove('on');res.innerHTML='';return;}
+  searchTimer=setTimeout(async()=>{
+    try{
+      const r=await fetch(`${API}/users/?search=${encodeURIComponent(q)}`,{headers:{Authorization:`Bearer ${tok}`}});
+      if(!r.ok)return;
+      const users=await r.json();
+      const filtered=users.filter(u=>u.id!==usr?.id);
+      if(!filtered.length){res.innerHTML='<div style="padding:10px 14px;font-size:11px;color:var(--muted)">Не найдено</div>';res.classList.add('on');return;}
+      res.innerHTML=filtered.map(u=>`<div class="usr-item${selectedUserIds.includes(u.id)?' selected':''}" onclick="toggleUser(${u.id},'${esc(u.username)}')"><div class="usr-av">${u.username[0].toUpperCase()}</div>${esc(u.username)}</div>`).join('');
+      res.classList.add('on');
+    }catch(e){}
+  },300);
+}
+
+function toggleUser(id, name){
+  if(selectedUserIds.includes(id)){
+    selectedUserIds=selectedUserIds.filter(i=>i!==id);
+  }else{
+    if(chatType==='private'&&selectedUserIds.length>=1){toast('Для личного чата — только 1 участник');return;}
+    selectedUserIds.push(id);
+  }
+  renderSelectedUsers();
+  // refresh search results highlight
+  document.querySelectorAll('.usr-item').forEach(el=>{
+    const uid=parseInt(el.getAttribute('onclick').match(/\d+/)[0]);
+    el.classList.toggle('selected',selectedUserIds.includes(uid));
+  });
+}
+
+function renderSelectedUsers(){
+  const wrap=document.getElementById('selectedUsers');
+  if(!selectedUserIds.length){wrap.innerHTML='';return;}
+  // we store name alongside id
+  wrap.innerHTML=selectedUserIds.map(id=>{
+    const el=document.querySelector(`.usr-item[onclick*="toggleUser(${id},"]`);
+    const name=el?el.textContent.trim():`User ${id}`;
+    return `<div class="stag">${esc(name)}<button onclick="toggleUser(${id},'')">×</button></div>`;
+  }).join('');
+}
+
+async function createChat(){
+  if(!selectedUserIds.length){toast('Добавь хотя бы одного участника');return;}
+  const isGroup=chatType==='group';
+  const name=isGroup?(document.getElementById('chatNameInp').value.trim()||'Группа'):null;
+  if(isGroup&&!name){toast('Введи название группы');return;}
   try{
-    const r=await fetch(`${API}/chats/`,{method:'POST',headers:{Authorization:`Bearer ${tok}`,'Content-Type':'application/json'},body:JSON.stringify({name,is_group:false,is_public:false,member_ids:[]})});
-    if(r.ok){toast('Чат создан ✓');loadChats();}
+    const r=await fetch(`${API}/chats/`,{
+      method:'POST',
+      headers:{Authorization:`Bearer ${tok}`,'Content-Type':'application/json'},
+      body:JSON.stringify({name:name||`Чат с ${selectedUserIds[0]}`,is_group:isGroup,is_public:false,member_ids:selectedUserIds})
+    });
+    if(r.ok){toast('Чат создан ✓');closeModal();loadChats();}
     else{const d=await r.json();toast(d.detail||'Ошибка');}
   }catch(e){toast('Ошибка');}
 }
 
+// ── MESSAGES ──────────────────────────────────────────────────────────
 function addMsg(msg,init=false){
   const c=document.getElementById('msgs');
   const isMe=usr&&msg.sender_id===usr.id;
@@ -313,6 +481,7 @@ function snd(){
 function hk(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();snd();}}
 function rs(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px';}
 
+// ── VOICE ─────────────────────────────────────────────────────────────
 async function toggleRec(){
   if(!rec){
     try{
@@ -338,31 +507,73 @@ async function sendVoice(){
     const d=await r.json(); document.getElementById('mi').value=d.text; toast('Текст готов ✓');
   }catch(e){toast('ML сервис недоступен');}
 }
+
+// ── TRANSLATE ─────────────────────────────────────────────────────────
 async function doTr(btn){
   const bub=btn.closest('.bub'),content=bub.querySelector('.bc').textContent;
   btn.textContent='...';
   try{
-    const r=await fetch(`${ML}/translate`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:content,source_lang:'ru',target_lang:'en'})});
+    const r=await fetch(`${ML}/translate/`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:content,target_lang:'en'})});
     if(!r.ok)return toast('Ошибка перевода');
     const d=await r.json();
     let tr=bub.querySelector('.trl');
     if(!tr){tr=document.createElement('div');tr.className='trl';bub.appendChild(tr);}
-    tr.textContent=d.translated_text;
+    tr.textContent=`[${d.source_lang}→${d.target_lang}] ${d.translated_text}`;
     btn.textContent='скрыть'; btn.onclick=()=>{tr.remove();btn.textContent='перевести';btn.onclick=()=>doTr(btn);};
   }catch(e){toast('ML сервис недоступен');btn.textContent='перевести';}
 }
-async function doSum(){
-  if(!cid)return; toast('Генерирую саммари...');
+
+// ── SUMMARY ───────────────────────────────────────────────────────────
+function setSumLang(lang, el){
+  sumLang=lang;
+  document.querySelectorAll('.sum-lang-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+}
+function openSumModal(){
+  if(!cid){toast('Сначала открой чат');return;}
+  document.getElementById('sumModal').classList.add('on');
+}
+function closeSumModal(){
+  document.getElementById('sumModal').classList.remove('on');
+}
+async function runSummary(){
+  closeSumModal();
+  toast('Генерирую саммари...');
   try{
-    const r=await fetch(`${ML}/summarize`,{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${tok}`},body:JSON.stringify({chat_id:cid})});
-    if(!r.ok)return toast('Ошибка саммари');
-    const d=await r.json(),div=document.createElement('div');
-    div.className='sysmsg'; div.innerHTML=`◈ <strong>Саммари:</strong> ${esc(d.summary)}`;
+    // load messages for current chat
+    const r=await fetch(`${API}/messages/${cid}`,{headers:{Authorization:`Bearer ${tok}`}});
+    if(!r.ok)return toast('Не удалось загрузить сообщения');
+    const msgs=await r.json();
+    if(!msgs.length)return toast('Нет сообщений для анализа');
+
+    const payload={
+      messages: msgs.map(m=>({
+        author: m.sender_id===usr?.id ? (usr.username||'me') : `user_${m.sender_id}`,
+        text: m.content,
+        timestamp: m.created_at||null
+      })),
+      target_lang: sumLang
+    };
+
+    const sr=await fetch(`${ML}/summarize/`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    if(!sr.ok)return toast('Ошибка саммари');
+    const d=await sr.json();
+
+    const div=document.createElement('div');
+    div.className='sumbox';
+    div.innerHTML=`<strong>◈ AI САММАРИ · ${d.processed_count} сообщений · ${d.language.toUpperCase()}</strong>${esc(d.summary_text)}`;
     const c=document.getElementById('msgs'); c.appendChild(div); c.scrollTop=c.scrollHeight;
+    toast('Саммари готово ✓');
   }catch(e){toast('ML сервис недоступен');}
 }
+
+// ── UTILS ─────────────────────────────────────────────────────────────
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function toast(m){const t=document.getElementById('tst');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2500);}
+
+// close modals on overlay click
+document.getElementById('ncModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+document.getElementById('sumModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeSumModal();});
 </script>
 </body>
 </html>
