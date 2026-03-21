@@ -1,7 +1,8 @@
 import redis.asyncio as redis
 from typing import AsyncGenerator
+import os
 
-REDIS_URL = "redis://localhost:6379"
+REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
 
 pool = redis.ConnectionPool.from_url(REDIS_URL, decode_responses=True)
 
